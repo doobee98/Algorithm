@@ -32,7 +32,7 @@ const int dy[] = { 1, 0, -1, 0 };
 
 
 int n, m, t, d;
-int heights[25][25];
+int positions[25][25];
 int results_up[25][25];
 int results_down[25][25];
 
@@ -50,7 +50,7 @@ int main() {
 		for (int j = 0; j <= m; j++) {
 			char c = input[j];
 			int h = c <= 'Z' ? c - 'A' : c - 'a' + 26;
-			heights[i][j] = h;
+			positions[i][j] = h;
 		}
 	}
 	memset(results_up, 0x3f, sizeof(int) * 25 * 25);
@@ -79,8 +79,8 @@ int main() {
 			int new_y = y + dy;
 			if (!isValidX(new_x) || !isValidY(new_y)) continue;
 
-			int h = heights[x][y];
-			int new_h = heights[new_x][new_y];
+			int h = positions[x][y];
+			int new_h = positions[new_x][new_y];
 			if (abs(new_h - h) > t) continue;
 
 			int dw = h >= new_h ? 1 : pow(new_h - h, 2);
@@ -107,8 +107,8 @@ int main() {
 			int new_y = y + dy;
 			if (!isValidX(new_x) || !isValidY(new_y)) continue;
 
-			int h = heights[x][y];
-			int new_h = heights[new_x][new_y];
+			int h = positions[x][y];
+			int new_h = positions[new_x][new_y];
 			if (abs(new_h - h) > t) continue;
 
 			// 간선 방향을 반대로 - cost 함수를 반대로
@@ -124,7 +124,7 @@ int main() {
 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			cout << heights[i][j] << ends;
+			cout << positions[i][j] << ends;
 		}
 		cout << endl;
 	}
@@ -146,10 +146,10 @@ int main() {
 	}
 	cout << endl;
 
-	int max_h = heights[0][0];
+	int max_h = positions[0][0];
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			int h = heights[i][j];
+			int h = positions[i][j];
 			int w = results_up[i][j] + results_down[i][j];
 			bool is_timeout = w > d;
 
